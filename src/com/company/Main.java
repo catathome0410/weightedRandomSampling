@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -9,9 +10,17 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
         SampleHelper sampleHelper = new SampleHelper();
-        sampleHelper.generateSamples(100);
+        sampleHelper.generateSamples(3);
+        HashMap<Integer, Integer> map = new HashMap<>();   // store generated samples id and number
+
         for (int i = 0; i < 1000; i++) {
-            sampleHelper.printWeightedRandomSample();
+            Sample sample = sampleHelper.weightedRandomSampling();
+            map.put(sample.getId(), map.getOrDefault(sample.getId(), 0) + 1);
+        }
+
+        sampleHelper.printSamples();
+        for (int it : map.keySet()) {
+            System.out.println("id: " + it + ", number: " + map.get(it) );
         }
     }
 
@@ -54,13 +63,13 @@ class SampleHelper {
         return null;
     }
 
-    public void printWeightedRandomSample() {
-        Sample sample = this.weightedRandomSampling();
-        System.out.println("sample id number is: " + sample.getId());
-        System.out.println("sample value is: " + sample.getVal());
-        System.out.println("sample weight is: " + sample.getWeight());
-        System.out.println();
+    public void printSamples() {
+        for (int i = 0; i < samples.size(); i++) {
+            System.out.println("id: " + samples.get(i).getId() + " value: " + samples.get(i).getVal() + " weight: " + samples.get(i).getWeight());
+        }
+        System.out.println();;
     }
+
 }
 
 class Sample {
@@ -86,5 +95,13 @@ class Sample {
 
     public double getWeight() {
         return weight;
+    }
+
+
+    public void print() {
+        System.out.println("sample id number is: " + this.getId());
+        System.out.println("sample value is: " + this.getVal());
+        System.out.println("sample weight is: " + this.getWeight());
+        System.out.println();
     }
 }
